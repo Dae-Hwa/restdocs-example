@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.restdocs.restassured3.RestDocumentationFilter;
+import org.springframework.restdocs.snippet.Snippet;
 
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -38,28 +40,44 @@ class SimpleAcceptanceTest {
                 .build();
     }
 
+    private Snippet simplePathParameterSnippet() {
+        return pathParameters(parameterWithName("id").description("아이디"));
+    }
+
+    private Snippet simpleRequestParameterSnippet() {
+        return requestParameters(parameterWithName("name").description("이름"));
+    }
+
+    private Snippet simpleResponseFieldsSnippet() {
+        return responseFields(
+                fieldWithPath("id")
+                        .type(JsonFieldType.NUMBER)
+                        .description("아이디"),
+                fieldWithPath("name")
+                        .type(JsonFieldType.STRING)
+                        .description("이름")
+        );
+    }
+
     @Test
     void read() {
+        RestDocumentationFilter restDocumentationFilter = document(
+                // identifier, 이를 이용해 adoc파일을 저장할 디렉토리를 생성한다
+                "simple-read",
+                simplePathParameterSnippet(),
+                simpleRequestParameterSnippet(),
+                simpleResponseFieldsSnippet()
+        );
+
         RequestSpecification given = RestAssured.given(this.spec)
                                                 .baseUri(BASE_URL)
                                                 .port(port)
                                                 .pathParam("id", 1)
-                                                .queryParam("name", "name");
+                                                .queryParam("name", "name")
+                                                .filter(restDocumentationFilter);
 
         Response actual = given.when()
-                               .filter(document(
-                                       "{class_name}/{method_name}/",
-                                       pathParameters(parameterWithName("id").description("아이디")),
-                                       requestParameters(parameterWithName("name").description("이름")),
-                                       responseFields(
-                                               fieldWithPath("id")
-                                                       .type(JsonFieldType.NUMBER)
-                                                       .description("아이디"),
-                                               fieldWithPath("name")
-                                                       .type(JsonFieldType.STRING)
-                                                       .description("이름")
-                                       )
-                               )).get("/simple/{id}");
+                               .get("/simple/{id}");
 
         actual.then()
               .statusCode(HttpStatus.OK.value())
