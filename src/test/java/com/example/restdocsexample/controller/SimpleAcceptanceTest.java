@@ -37,4 +37,32 @@ class SimpleAcceptanceTest {
                 .addFilter(documentationConfiguration(restDocumentation))
                 .build();
     }
+
+    @Test
+    void read() {
+        RequestSpecification given = RestAssured.given(this.spec)
+                                                .baseUri(BASE_URL)
+                                                .port(port)
+                                                .pathParam("id", 1)
+                                                .queryParam("name", "name");
+
+        Response actual = given.when()
+                               .filter(document(
+                                       "{class_name}/{method_name}/",
+                                       pathParameters(parameterWithName("id").description("아이디")),
+                                       requestParameters(parameterWithName("name").description("이름")),
+                                       responseFields(
+                                               fieldWithPath("id")
+                                                       .type(JsonFieldType.NUMBER)
+                                                       .description("아이디"),
+                                               fieldWithPath("name")
+                                                       .type(JsonFieldType.STRING)
+                                                       .description("이름")
+                                       )
+                               )).get("/simple/{id}");
+
+        actual.then()
+              .statusCode(HttpStatus.OK.value())
+              .log().all();
+    }
 }
