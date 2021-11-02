@@ -1,0 +1,27 @@
+= Rest Docs Example
+
+== Simple Service
+
+=== curl request
+
+include::{snippets}/simple-read/curl-request.adoc[]
+
+=== Path parameters
+
+include::{snippets}/simple-read/path-parameters.adoc[]
+
+=== Request parameters
+
+include::{snippets}/simple-read/request-parameters.adoc[]
+
+=== Response Fields
+
+include::{snippets}/simple-read/response-fields.adoc[]
+
+=== HTTP request
+
+include::{snippets}/simple-read/http-request.adoc[]
+
+=== HTTP response
+
+include::{snippets}/simple-read/http-response.adoc[]
