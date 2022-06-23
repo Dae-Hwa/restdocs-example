@@ -1,4 +1,6 @@
 = Rest Docs Example
+:toc: left
+:toclevels: 2
 
 == Simple Read
 
