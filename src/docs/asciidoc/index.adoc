@@ -1,6 +1,6 @@
 = Rest Docs Example
 
-== Simple Service
+== Simple Read
 
 === curl request
 
@@ -25,3 +25,11 @@ include::{snippets}/simple-read/http-request.adoc[]
 === HTTP response
 
 include::{snippets}/simple-read/http-response.adoc[]
+
+== Simple Create
+
+operation::simple-create[]
+
+== Simple Create2
+
+operation::simple-acceptance-test/simple-create2[]
