@@ -30,8 +30,22 @@ include::{snippets}/simple-read/http-response.adoc[]
 
 == Simple Create
 
-operation::simple-create[]
+=== curl request
 
-== Simple Create2
+include::{snippets}/simple-create/curl-request.adoc[]
 
-operation::simple-acceptance-test/simple-create2[]
+=== request body
+
+include::{snippets}/simple-create/request-fields.adoc[]
+
+=== Response Fields
+
+include::{snippets}/simple-create/response-fields.adoc[]
+
+=== HTTP request
+
+include::{snippets}/simple-create/http-request.adoc[]
+
+=== HTTP response
+
+include::{snippets}/simple-create/http-response.adoc[]
